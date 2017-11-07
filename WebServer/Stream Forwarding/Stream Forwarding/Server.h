@@ -29,7 +29,7 @@ class Server
 {
     
 public:
-    Server(char *port);
+    Server(int port);
     void create();
     static void sigchld_handler(int s);
     static void *listening_handler(void *sockfd);
@@ -50,7 +50,7 @@ public:
     };
     
     void writeToAll(char *message);
-    static struct socketList *clients;
+    static List<int> *clients;
     static List<TCPMessage> *messages;
     
     static std::function<void(void)> newConnectionCallback;
@@ -58,6 +58,7 @@ public:
     
 private:
     void *get_in_addr(struct sockaddr *sa);
+    static int p;
     
 };
 

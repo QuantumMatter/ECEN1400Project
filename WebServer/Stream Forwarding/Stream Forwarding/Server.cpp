@@ -8,86 +8,53 @@
 
 #include "Server.h"
 
-#define PORT "12345"
 #define BACKLOG 10
 
 //Server::smsg *Server::messages;
 List<Server::TCPMessage> *Server::messages;
-Server::socketList *Server::clients;
+List<int> *Server::clients;
+//Server::socketList *Server::clients;
 std::function<void(void)> Server::newConnectionCallback;
 std::function<void(Server::TCPMessage *msg)> Server::newMessageCallback;
+int Server::p;
 
-Server::Server(char *port)
+Server::Server(int port)
 {
-    int rv;
-    struct addrinfo hints, *server_info, *p;
+    struct sockaddr_in myaddr;
     int sockfd;
-    struct sigaction sa;
     
-    int yes = 1;
+    p = port;
     
-    /*messages = (smsg *) malloc(sizeof(smsg));
-    messages->message = "First";
-    messages->next = NULL;*/
+    //Create socket
+    if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        perror("Could not create socket");
+    }
+    
+    //Bind to socket
+    memset((char *)&myaddr, 0, sizeof(myaddr));
+    myaddr.sin_family = AF_INET;
+    myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    myaddr.sin_port = htons(port);
+    
+    if (bind(sockfd, (struct sockaddr *)&myaddr, sizeof(myaddr)) < 0) {
+        perror("Could not bind to socket");
+    }
+    
+    clients = new List<int>();
     messages = new List<TCPMessage>();
-    
-    clients = (socketList *)malloc(sizeof(socketList));
-    clients->sockfd = -1;
-    clients->next = NULL;
-    
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = AI_PASSIVE;
-    
-    if ((rv = getaddrinfo(nullptr, port, &hints, &server_info)) != 0) {
-        printf("ERROR A\n");
-        return;
-    }
-    
-    for (p = server_info; p != nullptr; p = p->ai_next) {
-        if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1) {
-            perror("server: socket");
-            printf("server socket error\n");
-            continue;
-        }
-        
-        if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
-            close(sockfd);
-            perror("setsockopt");
-            printf("set socket options error\n");
-            exit(1);
-        }
-        
-        if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
-            close(sockfd);
-            perror("server: bind");
-            printf("server binding error\n");
-            continue;
-        }
-        
-        break;
-    }
-    
-    freeaddrinfo(server_info);
-    
-    if (p == nullptr) {
-        fprintf(stderr, "server: failed to bind\n");
-        exit(1);
-    }
     
     if (listen(sockfd, BACKLOG) == -1) {
         perror("listen");
         exit(1);
     }
     
-    sa.sa_handler = Server::sigchld_handler;
+    /*sa.sa_handler = Server::sigchld_handler;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_RESTART;
     if (sigaction(SIGCHLD, &sa, nullptr) == -1) {
         perror("sigaction");
         exit(1);
-    }
+    }*/
     
     pthread_t listeningThread;
     int *new_sock = (int *)malloc(1);
@@ -99,20 +66,15 @@ Server::Server(char *port)
 
 void *Server::listening_handler(void *sockfd) {
     int newfd;
-    struct sockaddr_storage their_addr;
-    socklen_t sin_size;
+    sockaddr their_addr;//struct sockaddr_storage their_addr;
+    socklen_t sin_size = sizeof(their_addr);
     int mysock = *(int*)sockfd;
-    socketList *lastSocket = clients;
-    
-    sin_size = sizeof(their_addr);
+    //socketList *lastSocket = clients;
     
     while (true) {
         newfd = accept(mysock, (struct sockaddr *)&their_addr, &sin_size);
         
-        lastSocket->next = (socketList *)malloc(sizeof(socketList));
-        lastSocket = lastSocket->next;
-        lastSocket->sockfd = newfd;
-        lastSocket->next = NULL;
+        clients->addCopy(newfd);
         
         if (newConnectionCallback != NULL) {
             newConnectionCallback();
@@ -122,9 +84,7 @@ void *Server::listening_handler(void *sockfd) {
         info->fd = newfd;
         struct sockaddr_in *test = (struct sockaddr_in *) &their_addr;
         info->addr = inet_ntoa(test->sin_addr);
-        info->port = ntohs(test->sin_port);
-        //int *newnewfd = (int *) malloc(1);
-        //*newnewfd = newfd;
+        info->port = p;
         pthread_t snifferThread;
         if (pthread_create(&snifferThread, NULL, Server::connection_handler, (void *)info) < 0) {
             
@@ -151,9 +111,6 @@ void *Server::connection_handler(void *tcp_info)
         char mes_cpy[500] = {'\0', };
         strcpy(mes_cpy, client_message);
         message->message = mes_cpy;
-        //lastMsg->next->message = (char *)&mes_cpy;
-        //lastMsg->next->next = NULL;
-        //lastMsg = lastMsg->next;
         messages->add(message);
         if (newMessageCallback != NULL) {
             newMessageCallback(message);
@@ -178,11 +135,9 @@ void *Server::connection_handler(void *tcp_info)
 
 void Server::writeToAll(char *message)
 {
-    socketList *client = clients;
-    if (clients != NULL) {
-        while ((client = client->next) != NULL) {
-            write(client->sockfd, message, strlen(message));
-        }
+    //socketList *client = clients;
+    for (int i = 0; i < clients->count(); i++) {
+        write(*clients->get(i), message, strlen(message));
     }
 }
 

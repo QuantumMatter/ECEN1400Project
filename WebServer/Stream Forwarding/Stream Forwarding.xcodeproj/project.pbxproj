@@ -10,6 +10,7 @@
 		ED49A7951FB2260A00AFA868 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED49A7941FB2260A00AFA868 /* main.cpp */; };
 		ED49A7A01FB2264400AFA868 /* Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED49A79B1FB2264400AFA868 /* Client.cpp */; };
 		ED49A7A11FB2264400AFA868 /* Server.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED49A79E1FB2264400AFA868 /* Server.cpp */; };
+		ED49A7A41FB2557100AFA868 /* StreamForwarding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED49A7A21FB2557100AFA868 /* StreamForwarding.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +33,8 @@
 		ED49A79D1FB2264400AFA868 /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
 		ED49A79E1FB2264400AFA868 /* Server.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cpp; sourceTree = "<group>"; };
 		ED49A79F1FB2264400AFA868 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		ED49A7A21FB2557100AFA868 /* StreamForwarding.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StreamForwarding.cpp; sourceTree = "<group>"; };
+		ED49A7A31FB2557100AFA868 /* StreamForwarding.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = StreamForwarding.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +73,8 @@
 				ED49A79E1FB2264400AFA868 /* Server.cpp */,
 				ED49A79D1FB2264400AFA868 /* Server.h */,
 				ED49A7941FB2260A00AFA868 /* main.cpp */,
+				ED49A7A21FB2557100AFA868 /* StreamForwarding.cpp */,
+				ED49A7A31FB2557100AFA868 /* StreamForwarding.hpp */,
 			);
 			path = "Stream Forwarding";
 			sourceTree = "<group>";
@@ -131,6 +136,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED49A7A41FB2557100AFA868 /* StreamForwarding.cpp in Sources */,
 				ED49A7A01FB2264400AFA868 /* Client.cpp in Sources */,
 				ED49A7A11FB2264400AFA868 /* Server.cpp in Sources */,
 				ED49A7951FB2260A00AFA868 /* main.cpp in Sources */,
