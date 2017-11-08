@@ -50,7 +50,7 @@ public:
     };
     
     void writeToAll(char *message);
-    static List<int> *clients;
+    static List<ClientInfo> *clients;
     static List<TCPMessage> *messages;
     
     static std::function<void(void)> newConnectionCallback;

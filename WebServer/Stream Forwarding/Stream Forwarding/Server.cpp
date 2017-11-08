@@ -12,7 +12,7 @@
 
 //Server::smsg *Server::messages;
 List<Server::TCPMessage> *Server::messages;
-List<int> *Server::clients;
+List<Server::ClientInfo> *Server::clients;
 //Server::socketList *Server::clients;
 std::function<void(void)> Server::newConnectionCallback;
 std::function<void(Server::TCPMessage *msg)> Server::newMessageCallback;
@@ -38,9 +38,16 @@ Server::Server(int port)
     
     if (bind(sockfd, (struct sockaddr *)&myaddr, sizeof(myaddr)) < 0) {
         perror("Could not bind to socket");
+        return;
     }
     
-    clients = new List<int>();
+    //Set SO_REUSEADDR option to prevent program from being relaunched quickly
+    int optval = 1;
+    if(setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)) < 0) {
+        perror("could not set socket options");
+    }
+    
+    clients = new List<ClientInfo>();
     messages = new List<TCPMessage>();
     
     if (listen(sockfd, BACKLOG) == -1) {
@@ -74,8 +81,6 @@ void *Server::listening_handler(void *sockfd) {
     while (true) {
         newfd = accept(mysock, (struct sockaddr *)&their_addr, &sin_size);
         
-        clients->addCopy(newfd);
-        
         if (newConnectionCallback != NULL) {
             newConnectionCallback();
         }
@@ -85,6 +90,7 @@ void *Server::listening_handler(void *sockfd) {
         struct sockaddr_in *test = (struct sockaddr_in *) &their_addr;
         info->addr = inet_ntoa(test->sin_addr);
         info->port = p;
+        clients->addCopy(*info);
         pthread_t snifferThread;
         if (pthread_create(&snifferThread, NULL, Server::connection_handler, (void *)info) < 0) {
             
@@ -137,7 +143,7 @@ void Server::writeToAll(char *message)
 {
     //socketList *client = clients;
     for (int i = 0; i < clients->count(); i++) {
-        write(*clients->get(i), message, strlen(message));
+        write(clients->get(i)->fd, message, strlen(message));
     }
 }
 
