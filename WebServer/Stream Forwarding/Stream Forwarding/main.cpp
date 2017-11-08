@@ -21,6 +21,8 @@ bool debug = true;
 
 List<StreamForwarding> *forwardings = new List<StreamForwarding>();
 
+Server *server;
+
 void newConnectionCallback() {
     if (debug) {
         cout<<"new connection"<<endl;
@@ -31,9 +33,10 @@ void newMessageCallback(Server::TCPMessage *msg) {
     if (debug) {
         cout<<msg->addr->addr<<":"<<msg->addr->port<<" => "<<msg->message<<endl;
     }
-    if(msg->addr->port == 12345) {
+    if(msg->addr->port == 13456) {
         StreamForwarding *forward = new StreamForwarding(atoi(msg->message));
         forwardings->add(forward);
+        server->writeToAll("connected");
     }
 }
 
@@ -44,7 +47,7 @@ void portForward() {
 int main(int argc, const char * argv[]) {
 <<<<<<< Updated upstream
     if (false) {
-        Server *server = new Server(12345);
+        server = new Server(12345);
         server->newConnectionCallback = newConnectionCallback;
         server->newMessageCallback = newMessageCallback;
         
@@ -56,7 +59,7 @@ int main(int argc, const char * argv[]) {
             
         }
     } else {
-        Server *server = new Server(12345);
+        Server *server = new Server(13456);
         server->newConnectionCallback = newConnectionCallback;
         server->newMessageCallback = newMessageCallback;
         
