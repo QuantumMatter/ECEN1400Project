@@ -6,17 +6,29 @@
 //  Copyright © 2017 David Kopala. All rights reserved.
 //
 
+
 #include <iostream>
-#include <functional>
+#include <wiringPi.h>
 #include "Client.h"
 
-#define SERV_ADDR "127.0.0.1"//"52.38.18.162"
-#define SERV_PORT 15003
+#define SERV_ADDR   "127.0.0.1"//"52.38.18.162"
+#define SERV_PORT   15003
+#define LED         0
 
 using namespace std;
 
+//Process data from server
 void clientReadCallback(char *message) {
-    cout<<message<<endl;
+    //cout<<message<<endl;
+    if(strlen(message) > 0) {
+        if (message[0] == 'o') {
+            //Turn LED On
+            digitalWrite(LED, 1);
+        } else if (message[0] == 'f') {
+            //Turn LED Off
+            digitalWrite(LED, 0);
+        }
+    }
 }
 
 void streamReqCallback(char *message) {
@@ -37,6 +49,10 @@ int main(int argc, const char * argv[]) {
     newStreamReq->readCallback = streamReqCallback;
     newStreamReq->writeMessage("15003");
     //Connect to the stream in the callback
+    
+    //Configure WiringPi GPIO utility
+    wiringPiSetup();
+    pinMode(LED, OUTPUT);
     
     while (true) {
         
