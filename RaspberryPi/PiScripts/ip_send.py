@@ -28,20 +28,20 @@ arg = 'ip route list'
 p = subprocess.Popen(arg, shell=True, stdout=subprocess.PIPE)
 data = p.communicate()
 
-ip_lines = data[0].splitlines()
-split_line_a = ip_lines[1].split()
-#split_line_b = ip_lines[2].split()
+ip_lines_un = data[0].splitlines()
+ip_lines = []
+for i in range(0, len(ip_lines_un)):
+	if ip_lines_un[i].split()[0] != 'default':
+		ip_lines.append(ip_lines_un[i])
 
-ip_type_a = connection_type(split_line_a)
-#ip_type_b = connection_type(split_line_b)
+message = ''
+for i in range(0, len(ip_lines)):
+	split_line = ip_lines[i].split()
+	ip_type = connection_type(split_line)
+	ipaddr = split_line[split_line.index('src')+1]
+	message += '%s: %s\n' % (ip_type, ipaddr)
 
-ipaddr_a = split_line_a[split_line_a.index('src')+1]
-#ipaddr_b = split_line_b[split_line_b.index('src')+1]
-
-my_ip_a = 'Your %s ip is %s' % (ip_type_a, ipaddr_a)
-#my_ip_b = 'Your %s ip is %s' % (ip_type_b, ipaddr_b)
-
-msg = MIMEText(my_ip_a)# + '\n' + my_ip_b)
+msg = MIMEText(message)# + '\n' + my_ip_b)
 msg['Subject'] = 'IPs For RPi on %s' % today.strftime('%b %d %y')
 msg['From'] = gmail_user
 msg['To'] = to
