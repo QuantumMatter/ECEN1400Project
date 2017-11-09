@@ -10,6 +10,7 @@
 #include "Server.h"
 #include "StreamForwarding.hpp"
 #include "List.h"
+#include "Client.h"
 
 using namespace std;
 
@@ -32,7 +33,7 @@ void newMessageCallback(Server::TCPMessage *msg) {
     if(msg->addr->port == 13456) {
         StreamForwarding *forward = new StreamForwarding(atoi(msg->message));
         forwardings->add(forward);
-	server->writeToAll("connected");
+        server->writeToAll("connected");
     }
 }
 
@@ -42,7 +43,7 @@ void portForward() {
 
 int main(int argc, const char * argv[]) {
     if (false) {
-        Server *server = new Server(12345);
+        server = new Server(12345);
         server->newConnectionCallback = newConnectionCallback;
         server->newMessageCallback = newMessageCallback;
         
@@ -61,6 +62,5 @@ int main(int argc, const char * argv[]) {
         while (true) {
             
         }
-    }
     return 0;
 }
