@@ -8,12 +8,9 @@
 
 #include <iostream>
 #include "Server.h"
-<<<<<<< Updated upstream
 #include "StreamForwarding.hpp"
 #include "List.h"
-=======
 #include "Client.h"
->>>>>>> Stashed changes
 
 using namespace std;
 
@@ -45,7 +42,6 @@ void portForward() {
 }
 
 int main(int argc, const char * argv[]) {
-<<<<<<< Updated upstream
     if (false) {
         server = new Server(12345);
         server->newConnectionCallback = newConnectionCallback;
@@ -59,23 +55,12 @@ int main(int argc, const char * argv[]) {
             
         }
     } else {
-        Server *server = new Server(13456);
+        server = new Server(13456);
         server->newConnectionCallback = newConnectionCallback;
         server->newMessageCallback = newMessageCallback;
         
         while (true) {
             
         }
-=======
-    Client *client = new Client("128.138.12.106 ", 12345);
-    client->writeMessage("11111");
-    Client *stream = new Client("128.138.12.106", 11111);
-    while(true) {
-	stream->writeMessage("test from RPI");
-	for(int i = 0; i < 1000000; i++) {
-	    cout<<"set"<<endl;
-	}
->>>>>>> Stashed changes
-    }
     return 0;
 }
