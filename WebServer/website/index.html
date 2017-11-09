@@ -9,4 +9,17 @@
 FFDDCU Home Page!
 
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+    var data = {
+        "type": "test",
+        "latitude": 40.0031470000,
+        "longitude": -105.2632500000,
+        "value": 2
+    };
+    $.post("dbconn.php?table=data", data, function (d) {
+        console.log(d);
+    });
+</script>
 </html>

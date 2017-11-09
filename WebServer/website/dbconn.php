@@ -11,7 +11,7 @@ $conn = mysqli_connect("localhost", "admin", "password", "ECEN1400");
 if(strcmp($_SERVER['REQUEST_METHOD'], "GET") == 0) {
     get();
 } else if(strcmp($_SERVER['REQUEST_METHOD'], "POST") == 0) {
-
+    post();
 } else if(strcmp($_SERVER['REQUEST_METHOD'], "PUT") == 0) {
 
 } else if(strcmp($_SERVER['REQUEST_METHOD'], "DELETE") == 0) {
@@ -88,5 +88,26 @@ function stringify_results($results) {
 }
 
 function post() {
+    global $conn;
+
+    if (!isset($_GET['table'])) {
+        return;
+    }
+
+    $keys = "( ";
+    $values = "( ";
+    foreach ($_POST as $key => $value) {
+        $keys .= '`' . $key . '`, ';
+        if (is_numeric($value)) {
+            $values .= $value . ", ";
+        } else {
+            $values .= "'" . $value . "', ";
+        }
+    }
+    $keys = substr($keys, 0, -2) . ' )';
+    $values = substr($values, 0, -2) . ' )';
+
+    $query = "INSERT INTO " . $_GET['table'] . $keys . " VALUES " . $values;
+    echo $query;
 
 }
