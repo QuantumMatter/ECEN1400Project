@@ -44,22 +44,18 @@ void clientReadCallback(char *message) {
             cout<<"turning LED 0 off"<<endl;
         } else if (message[0] == 'w') {
             leftMotor->forward();
-            delay(500);
             rightMotor->forward();
             cout<<"forward"<<endl;
         } else if (message[0] == 'a') {
             leftMotor->reverse();
-            delay(500);
             rightMotor->forward();
             cout<<"left"<<endl;
         } else if (message[0] == 's') {
             leftMotor->reverse();
-            delay(500);
             rightMotor->reverse();
             cout<<"backwards"<<endl;
         } else if (message [0] == 'd') {
             leftMotor->forward();
-            delay(500);
             rightMotor->reverse();
             cout<<"right"<<endl;
         } else if (message[0] == ' ') {
