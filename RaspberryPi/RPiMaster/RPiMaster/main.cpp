@@ -31,7 +31,8 @@ L293D *leftMotor;
 L293D *rightMotor;
 
 //Process data from server
-void clientReadCallback(char *message) {
+void clientReadCallback(node *msg) {
+    char *message = msg->message;
     //cout<<message<<endl;
     if(strlen(message) > 0) {
         if (message[0] == 'o') {
@@ -61,7 +62,8 @@ void clientReadCallback(char *message) {
     }
 }
 
-void streamReqCallback(char *message) {
+void streamReqCallback(node *msg) {
+    char *message = msg->message;
     if (strcmp(message, "connected") == 0) {
        // Client *client = new Client(SERV_ADDR, SERV_PORT);
        // client->readCallback = clientReadCallback;
