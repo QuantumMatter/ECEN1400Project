@@ -83,7 +83,7 @@ void *Client::recvHandler(void *sock_desc)
             last->next->message = mes_cpy;
             last->next->next = NULL;
             if (readCallback != NULL) {
-                readCallback(last->next);
+                readCallback(last->next->message);
             }
             bzero(message, 500);
         }
