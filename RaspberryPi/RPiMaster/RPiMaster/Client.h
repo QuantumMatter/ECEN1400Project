@@ -44,7 +44,7 @@ public:
     static void *recvHandler(void *sock_desc);
     
     //a function to be called when a message is received
-    static std::function<void(node *msg)> readCallback;
+    static std::function<void(char *message)> readCallback;
     
 private:
     int sock;

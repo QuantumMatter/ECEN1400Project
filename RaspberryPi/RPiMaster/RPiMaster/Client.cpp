@@ -12,7 +12,7 @@
 #define MAXDATASIZE 100
 
 static node_t *messages;
-std::function<void(char *msg)> Client::readCallback;
+std::function<void(char *message)> Client::readCallback;
 
 Client::Client(char *hostname, int port)
 {
@@ -83,7 +83,7 @@ void *Client::recvHandler(void *sock_desc)
             last->next->message = mes_cpy;
             last->next->next = NULL;
             if (readCallback != NULL) {
-                readCallback(last->next->message);
+                readCallback(last->next);
             }
             bzero(message, 500);
         }
