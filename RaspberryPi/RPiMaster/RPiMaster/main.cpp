@@ -10,13 +10,25 @@
 #include <iostream>
 #include <wiringPi.h>
 #include "Client.h"
+#include "L293D.hpp"
 
 #define SERV_ADDR   "52.38.18.162"
 #define SERV_PORT   15003
 #define LED         0
 //Pin 0 => GPIO Pin BCM 17
+#define FPIN_LEFT   25
+//Pin 25 => GPIO Pin BCM 26
+#define RPIN_LEFT   24
+//Pin 25 => GPIO Pin BCM 19
+#define FPIN_RIGHT  23
+//Pin 23 => GPIO Pin BMC 13
+#define RPIN_RIGHT  22
+//Pin 22 => GPIO Pin BCM 6
 
 using namespace std;
+
+L293D *leftMotor;
+L293D *rightMotor;
 
 //Process data from server
 void clientReadCallback(char *message) {
@@ -25,11 +37,26 @@ void clientReadCallback(char *message) {
         if (message[0] == 'o') {
             //Turn LED On
             digitalWrite(LED, 1);
-	    cout<<"turning LED 0 on"<<endl;
+            cout<<"turning LED 0 on"<<endl;
         } else if (message[0] == 'f') {
             //Turn LED Off
             digitalWrite(LED, 0);
-	    cout<<"turning LED 0 off"<<endl;
+            cout<<"turning LED 0 off"<<endl;
+        } else if (message[0] == 'w') {
+            leftMotor->forward();
+            rightMotor->forward();
+        } else if (message[0] == 'a') {
+            leftMotor->reverse();
+            rightMotor->forward();
+        } else if (message[0] == 's') {
+            leftMotor->reverse();
+            rightMotor->reverse();
+        } else if (message [0] == 'd') {
+            leftMotor->forward();
+            rightMotor->reverse();
+        } else if (message[0] == ' ') {
+            leftMotor->stop();
+            rightMotor->stop();
         }
     }
 }
@@ -56,6 +83,10 @@ int main(int argc, const char * argv[]) {
     //Configure WiringPi GPIO utility
     wiringPiSetup();
     pinMode(LED, OUTPUT);
+    
+    //Setup motors
+    rightMotor = new L293D(FPIN_RIGHT, RPIN_RIGHT);
+    leftMotor = new L293D(FPIN_LEFT, RPIN_LEFT);
 
    //Wait half second to allow server to open port
    delay(500);
