@@ -24,7 +24,10 @@ void ArduinoSlave::read() {
     
     data = wiringPiI2CRead(fd);
     if(type == 1) {
-        cout<<"OVER 255!!!"<<endl;
         data *= 3;
     }
+}
+
+void ArduinoSlave::write(int dat) {
+    wiringPiI2CWrite(fd, data);
 }

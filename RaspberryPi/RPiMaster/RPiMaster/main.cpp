@@ -102,10 +102,18 @@ int main(int argc, const char * argv[]) {
    Client *client = new Client(SERV_ADDR, SERV_PORT);
    client->readCallback = clientReadCallback;
     
+    //Green -> Red -> Blue -> Purple -> Torquoise
+    int colors[5][3] = {{0, 255, 0}, {255, 0, 0}, {0, 0, 255}, {226, 86, 255}, {75, 252, 220}};
+    
     cout<<"starting loop"<<endl;
+    int colorIndex = 0;
     while (true) {
         arduino->read();
         cout<<"Arduino: "<<arduino->getData()<<endl;
+        
+        arduino->write(colors[colorIndex%5][0]);
+        arduino->write(colors[colorIndex%5][1]);
+        arduino->write(colors[colorIndex%5][2]);
         
         delay(900);
    }

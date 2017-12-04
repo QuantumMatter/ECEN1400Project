@@ -34,6 +34,7 @@ public:
     };
     
     void read();
+    void write(int dat);
     
 };
 
