@@ -11,9 +11,17 @@
 ArduinoSlave::ArduinoSlave(int address) {
     addr = address;
     
+    wiringPiSetup();
+    pinMode(ARD_PIN, INPUT);
+    
     fd = wiringPiI2CSetup(address);
 }
 
 void ArduinoSlave::read() {
+    int type = digitalRead(ARD_PIN);
+    
     data = wiringPiI2CRead(fd);
+    if(type == 1) {
+        data *= 3;
+    }
 }

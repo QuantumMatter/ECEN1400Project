@@ -11,6 +11,9 @@
 
 #include <stdio.h>
 #include <wiringPiI2C.h>
+#include <wiringPi.h>
+
+#define ARD_PIN         21
 
 class ArduinoSlave {
     
