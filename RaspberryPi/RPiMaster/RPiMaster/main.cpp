@@ -114,6 +114,7 @@ int main(int argc, const char * argv[]) {
         arduino->write(colors[colorIndex%5][0]);
         arduino->write(colors[colorIndex%5][1]);
         arduino->write(colors[colorIndex%5][2]);
+        colorIndex++;
         
         delay(900);
    }
