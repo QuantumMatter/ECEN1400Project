@@ -15,6 +15,8 @@
 
 #define ARD_PIN         21
 
+using namespace std;
+
 class ArduinoSlave {
     
 private:

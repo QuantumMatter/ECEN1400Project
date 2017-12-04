@@ -8,6 +8,8 @@
 
 #include "ArduinoSlave.hpp"
 
+#include <iostream>
+
 ArduinoSlave::ArduinoSlave(int address) {
     addr = address;
     
@@ -22,6 +24,7 @@ void ArduinoSlave::read() {
     
     data = wiringPiI2CRead(fd);
     if(type == 1) {
+        cout<<"OVER 255!!!"<<endl;
         data *= 3;
     }
 }
