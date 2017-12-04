@@ -111,13 +111,16 @@ int main(int argc, const char * argv[]) {
         arduino->read();
         cout<<"Arduino: "<<arduino->getData()<<endl;
         
-        arduino->write(colors[colorIndex%5][0]);
+        /*arduino->write(colors[colorIndex%5][0]);
         arduino->write(colors[colorIndex%5][1]);
         arduino->write(colors[colorIndex%5][2]);
         cout<<"Sending color: {"<<colors[colorIndex%5][0]<<", "<<colors[colorIndex%5][1]<<", "<<colors[colorIndex%5][2]<<"}"<<endl;
         colorIndex++;
+         */
         
-        delay(900);
+        arduino->write(255);
+        
+        delay(2000);
    }
     
     
