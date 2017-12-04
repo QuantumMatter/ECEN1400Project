@@ -1,7 +1,7 @@
 #ifndef MPU6050_H
 #define MPU6050_H
 
-#include "wiringPiI2C.h"
+#include <wiringPiI2C.h>
 
 //Device Setup
 #define address         0x68

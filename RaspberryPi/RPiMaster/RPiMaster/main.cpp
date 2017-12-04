@@ -11,6 +11,7 @@
 #include <wiringPi.h>
 #include "Client.h"
 #include "L293D.hpp"
+#include "ArduinoSlave.hpp"
 
 #define SERV_ADDR   "52.38.18.162"
 #define SERV_PORT   15003
@@ -92,6 +93,9 @@ int main(int argc, const char * argv[]) {
     //Setup motors
     rightMotor = new L293D(FPIN_RIGHT, RPIN_RIGHT);
     leftMotor = new L293D(FPIN_LEFT, RPIN_LEFT);
+    
+    //Setup the Arduino Slave
+    ArduinoSlave *arduino = new ArduinoSlave(0x05);
 
    //Wait half second to allow server to open port
    delay(500);
@@ -100,7 +104,10 @@ int main(int argc, const char * argv[]) {
     
     cout<<"starting loop"<<endl;
     while (true) {
-
+        arduino->read();
+        cout<<"Arduino: "<<arduino->getData()<<endl;
+        
+        delay(900);
    }
     
     
