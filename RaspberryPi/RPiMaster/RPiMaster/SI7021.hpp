@@ -12,6 +12,11 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <iostream>
+#include <stdlib.h>
+#include <linux/i2c-dev.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
 
@@ -21,7 +26,7 @@ class SI7201 {
     
 private:
     int addr;
-    int fd;
+    int file;
     
     float humidity;
     float celcius;
