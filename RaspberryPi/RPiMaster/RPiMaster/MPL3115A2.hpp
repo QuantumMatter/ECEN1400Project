@@ -27,8 +27,7 @@ private:
     float celcius;
     
 public:
-    int test();
-    /*MPL3115A2(int address = 0x60);
+    MPL3115A2(int address = 0x60);
     void update();
     float getPressure() {
         return pressure;
@@ -38,7 +37,7 @@ public:
     }
     float getCelcius() {
         return celcius;
-    }*/
+    }
 };
 
 #endif /* MPL3115A2_hpp */

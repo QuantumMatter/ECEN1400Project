@@ -9,7 +9,12 @@
 
 using namespace std;
 
-int MPL3115A2::test()
+MPL3115A2::MPL3115A2(int address) {
+    addr = address;
+    update();
+}
+
+void MPL3115A2::update()
 {
     // Create I2C bus
     int file;
@@ -20,7 +25,7 @@ int MPL3115A2::test()
         exit(1);
     }
     // Get I2C device, TSL2561 I2C address is 0x60(96)
-    ioctl(file, I2C_SLAVE, 0x60);
+    ioctl(file, I2C_SLAVE, addr);
     
     // Select control register(0x26)
     // Active mode, OSR = 128, altimeter mode(0xB9)
@@ -54,9 +59,9 @@ int MPL3115A2::test()
     // Convert the data
     int tHeight = ((data[1] * 65536) + (data[2] * 256 + (data[3] & 0xF0)) / 16);
     int temp = ((data[4] * 256) + (data[5] & 0xF0)) / 16;
-    float altitude = tHeight / 16.0;
-    float cTemp = (temp / 16.0);
-    float fTemp = cTemp * 1.8 + 32;
+    altitude = tHeight / 16.0;
+    celcius = (temp / 16.0);
+    //float fTemp = cTemp * 1.8 + 32;
     
     // Select control register(0x26)
     // Active mode, OSR = 128, barometer mode(0x39)
@@ -73,15 +78,12 @@ int MPL3115A2::test()
     
     // Convert the data to 20-bits
     int pres = ((data[1] * 65536) + (data[2] * 256 + (data[3] & 0xF0))) / 16;
-    float pressure = (pres / 4.0) / 1000.0;
+    pressure = (pres / 4.0) / 1000.0;
     
     // Output data to screen
-    printf("Pressure : %.2f kPa \n", pressure);
-    printf("Altitude : %.2f m \n", altitude);
-    printf("Temperature in Celsius : %.2f C \n", cTemp);
-    printf("Temperature in Fahrenheit : %.2f F \n", fTemp);
-    
-    
-    return 0;
+    //printf("Pressure : %.2f kPa \n", pressure);
+    //printf("Altitude : %.2f m \n", altitude);
+    //printf("Temperature in Celsius : %.2f C \n", cTemp);
+    //printf("Temperature in Fahrenheit : %.2f F \n", fTemp);
 }
 

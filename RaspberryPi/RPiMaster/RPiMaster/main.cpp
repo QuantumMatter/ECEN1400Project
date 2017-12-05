@@ -71,8 +71,8 @@ void clientReadCallback(char *message) {
 
 void streamReqCallback(char *message) {
     if (strcmp(message, "connected") == 0) {
-       // Client *client = new Client(SERV_ADDR, SERV_PORT);
-       // client->readCallback = clientReadCallback;
+        // Client *client = new Client(SERV_ADDR, SERV_PORT);
+        // client->readCallback = clientReadCallback;
     } else {
         cout<<"could not connect"<<endl;
     }
@@ -105,11 +105,11 @@ int main(int argc, const char * argv[]) {
     //Setup TrekManger
     TrekManager *trek = new TrekManager();
     trek->startTrek();
-
-   //Wait half second to allow server to open port
-   delay(500);
-   Client *client = new Client(SERV_ADDR, SERV_PORT);
-   client->readCallback = clientReadCallback;
+    
+    //Wait half second to allow server to open port
+    delay(500);
+    Client *client = new Client(SERV_ADDR, SERV_PORT);
+    client->readCallback = clientReadCallback;
     
     cout<<"starting loop"<<endl;
     int colorIndex = 0;
@@ -129,8 +129,9 @@ int main(int argc, const char * argv[]) {
         //arduino->write(255);
         
         delay(2000);
-   }
+    }
     
     
     return 0;
 }
+
