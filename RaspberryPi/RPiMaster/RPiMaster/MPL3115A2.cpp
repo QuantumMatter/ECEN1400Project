@@ -14,7 +14,7 @@ MPL3115A2::MPL3115A2(int address) {
     fd = wiringPiI2CSetup(addr);
     
     // Create I2C bus
-    int file;
+    /*int file;
     char *bus = "/dev/i2c-1";
     if((file = open(bus, O_RDWR)) < 0)
     {
@@ -22,7 +22,7 @@ MPL3115A2::MPL3115A2(int address) {
         exit(1);
     }
     // Get I2C device, TSL2561 I2C address is 0x60(96)
-    //ioctl(file, I2C_SLAVE, 0x60);
+    //ioctl(file, I2C_SLAVE, 0x60);*/
     
     // Select control register(0x26)
     // Active mode, OSR = 128, altimeter mode(0xB9)
@@ -47,7 +47,7 @@ MPL3115A2::MPL3115A2(int address) {
     wiringPiI2CWrite(fd, config[1]);
     //write(file, config, 2);
     //sleep(1);
-    delay(200);
+    //delay(200);
     
     // Read 6 bytes of data from address 0x00(00)
     // status, tHeight msb1, tHeight msb, tHeight lsb, temp msb, temp lsb
@@ -78,8 +78,10 @@ MPL3115A2::MPL3115A2(int address) {
     // Active mode, OSR = 128, barometer mode(0x39)
     config[0] = 0x26;
     config[1] = 0x39;
-    write(file, config, 2);
-    sleep(1);
+    wiringPiI2CWrite(fd, config[0]);
+    wiringPiI2CWrite(fd, config[1]);
+    //write(file, config, 2);
+    //sleep(1);
     
     // Read 4 bytes of data from register(0x00)
     // status, pres msb1, pres msb, pres lsb
