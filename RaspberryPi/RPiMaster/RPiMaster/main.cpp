@@ -12,6 +12,7 @@
 #include "Client.h"
 #include "L293D.hpp"
 #include "ArduinoSlave.hpp"
+#include "TrekManager.hpp"
 
 #define SERV_ADDR   "52.38.18.162"
 #define SERV_PORT   15003
@@ -96,6 +97,10 @@ int main(int argc, const char * argv[]) {
     
     //Setup the Arduino Slave
     ArduinoSlave *arduino = new ArduinoSlave(0x05);
+    
+    //Setup TrekManger
+    TrekManager *trek = new TrekManager();
+    trek->startTrek();
 
    //Wait half second to allow server to open port
    delay(500);

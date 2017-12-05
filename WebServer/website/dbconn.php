@@ -94,8 +94,8 @@ function post() {
         return;
     }
 
-    $keys = "( ";
-    $values = "( ";
+    $keys = "(  ";
+    $values = "(  ";
     foreach ($_POST as $key => $value) {
         $keys .= '`' . $key . '`, ';
         if (is_numeric($value)) {
@@ -108,6 +108,10 @@ function post() {
     $values = substr($values, 0, -2) . ' )';
 
     $query = "INSERT INTO " . $_GET['table'] . $keys . " VALUES " . $values;
-    echo $query;
+    mysqli_query($conn, $query);
 
+    $r_query = "SELECT * FROM " . $_GET['table'] . " WHERE `ID`=LAST_INSERT_ID()";
+    $result = mysqli_query($conn, $r_query);
+
+    echo stringify_results($result);
 }

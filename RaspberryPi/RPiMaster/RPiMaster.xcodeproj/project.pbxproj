@@ -14,6 +14,7 @@
 		ED96164D1FBF8754005056F7 /* esc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED96164A1FBF8754005056F7 /* esc.cpp */; };
 		EDD567281FD4789C00B6D9FF /* L293D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDD567261FD4789C00B6D9FF /* L293D.cpp */; };
 		EDD567311FD4F5B500B6D9FF /* ArduinoSlave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDD5672F1FD4F5B500B6D9FF /* ArduinoSlave.cpp */; };
+		EDD567381FD65DD900B6D9FF /* TrekManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDD567361FD65DD900B6D9FF /* TrekManager.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +45,8 @@
 		EDD567271FD4789C00B6D9FF /* L293D.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = L293D.hpp; sourceTree = "<group>"; };
 		EDD5672F1FD4F5B500B6D9FF /* ArduinoSlave.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ArduinoSlave.cpp; sourceTree = "<group>"; };
 		EDD567301FD4F5B500B6D9FF /* ArduinoSlave.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ArduinoSlave.hpp; sourceTree = "<group>"; };
+		EDD567361FD65DD900B6D9FF /* TrekManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TrekManager.cpp; sourceTree = "<group>"; };
+		EDD567371FD65DD900B6D9FF /* TrekManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TrekManager.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +91,8 @@
 		EDD567291FD4A10400B6D9FF /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				EDD567361FD65DD900B6D9FF /* TrekManager.cpp */,
+				EDD567371FD65DD900B6D9FF /* TrekManager.hpp */,
 				ED057C351FB2A05200F329D1 /* Client.cpp */,
 				ED057C341FB2A05200F329D1 /* Client.h */,
 			);
@@ -176,6 +181,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED96164C1FBF8754005056F7 /* pca9685.cpp in Sources */,
+				EDD567381FD65DD900B6D9FF /* TrekManager.cpp in Sources */,
 				EDD567311FD4F5B500B6D9FF /* ArduinoSlave.cpp in Sources */,
 				ED057C391FB2A05200F329D1 /* Client.cpp in Sources */,
 				ED96164D1FBF8754005056F7 /* esc.cpp in Sources */,
