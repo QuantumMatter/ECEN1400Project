@@ -115,14 +115,18 @@ int main(int argc, const char * argv[]) {
     int colorIndex = 0;
     while (true) {
         arduino->read();
+        altimeter->read();
         
         //Post Light Value to Server
         int light = arduino->getData();
         trek->postData("Light", to_string(light), "V");
         
-        //
+        //Print the altimeter stuff
+        cout<<"Altitude: "<<altimeter->getAltitude()<<end;;
+        cout<<"Pressure: "<<altimeter->getPressure()<<endl;
+        cout<<"Temperature: "<<altimeter->getCelcius()<<endl;
         
-        arduino->write(255);
+        //arduino->write(255);
         
         delay(2000);
    }

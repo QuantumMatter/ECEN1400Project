@@ -20,6 +20,7 @@ class MPL3115A2 {
 private:
     int addr;
     int fd;
+    int file;
     
     float pressure;
     float altitude;
