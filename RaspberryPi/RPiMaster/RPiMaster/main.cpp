@@ -105,7 +105,7 @@ int main(int argc, const char * argv[]) {
     MPL3115A2 *altimeter = new MPL3115A2();
     
     //Setup the humidity sensor
-    SI7201 *humidity = new SI7201();
+    //SI7201 *humidity = new SI7201();
     
     //Setup TrekManger
     TrekManager *trek = new TrekManager();
@@ -121,7 +121,7 @@ int main(int argc, const char * argv[]) {
     while (true) {
         arduino->read();
         altimeter->update();
-        humidity->update();
+        //humidity->update();
         
         //Post Light Value to Server
         int light = arduino->getData();
@@ -133,7 +133,9 @@ int main(int argc, const char * argv[]) {
         trek->postData("Temperature", to_string(altimeter->getCelcius()), "C");
         
         //Post humidity data to server
-        trek->postData("Humidity", to_string(humidity->getHumidity()), "%");
+        arduino->read();
+        trek->postData("Humidity", to_string(arduino->getData()), "%");
+        //trek->postData("Humidity", to_string(humidity->getHumidity()), "%");
         
         delay(2000);
     }

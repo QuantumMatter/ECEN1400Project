@@ -25,13 +25,14 @@ SI7201::SI7201(int address) {
 }
 
 void SI7201::update() {
+    cout<<""<<endl;
     //wiringPiI2CWrite(fd, 0xF5);
     uint8_t config[1] = {0xF5};
     write(file, config, 1);
     delay(0.3);
     
     uint8_t data[2] = {0};
-    if(read(fd, data, 2) != 2) {
+    if(read(file, data, 2) != 2) {
         cout<<"SI7021 IO Error"<<endl;
     }
     /*char data0 = wiringPiI2CRead(fd);
@@ -47,7 +48,7 @@ void SI7201::update() {
     
     /*data0 = wiringPiI2CRead(fd);
     data1 = wiringPiI2CRead(fd);*/
-    if(read(fd, data, 2) != 2) {
+    if(read(file, data, 2) != 2) {
         cout<<"SI7021 IO Error"<<endl;
     }
     
