@@ -121,10 +121,10 @@ int main(int argc, const char * argv[]) {
         int light = arduino->getData();
         trek->postData("Light", to_string(light), "V");
         
-        //Print the altimeter stuff
-        cout<<"Altitude: "<<altimeter->getAltitude()<<endl;
-        cout<<"Pressure: "<<altimeter->getPressure()<<endl;
-        cout<<"Temperature: "<<altimeter->getCelcius()<<endl;
+        //Post altimeter data to server
+        trek->postData("Altitude", to_string(altimeter->getAltitude()), "m");
+        trek->postData("Pressure", to_string(altimeter->getPressure()), "kPa");
+        trek->postData("Temperature", to_string(altimeter->getCelcius()), "C");
         
         //arduino->write(255);
         
