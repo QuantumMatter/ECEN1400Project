@@ -15,7 +15,6 @@
 #include "ArduinoSlave.hpp"
 #include "TrekManager.hpp"
 #include "MPL3115A2.hpp"
-#include "SI7021.hpp"
 
 #define SERV_ADDR   "52.38.18.162"
 #define SERV_PORT   15003
@@ -119,7 +118,9 @@ int main(int argc, const char * argv[]) {
     cout<<"starting loop"<<endl;
     int colorIndex = 0;
     while (true) {
+        cout<<"arduino read"<<endl;
         arduino->read();
+        cout<<"MPL read"<<endl;
         altimeter->update();
         //humidity->update();
         
@@ -133,6 +134,7 @@ int main(int argc, const char * argv[]) {
         trek->postData("Temperature", to_string(altimeter->getCelcius()), "C");
         
         //Post humidity data to server
+        cout<<"arduino read"<<endl;
         arduino->read();
         trek->postData("Humidity", to_string(arduino->getData()), "%");
         //trek->postData("Humidity", to_string(humidity->getHumidity()), "%");

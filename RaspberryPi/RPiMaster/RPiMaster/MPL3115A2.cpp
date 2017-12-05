@@ -52,7 +52,7 @@ void MPL3115A2::update()
     char data[6] = {0};
     if(read(file, data, 6) != 6)
     {
-        printf("Error : Input/Output error \n");
+        printf("MPL3115A2 Error : Input/Output error \n");
         exit(1);
     }
     
