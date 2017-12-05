@@ -15,6 +15,7 @@
 		EDD567281FD4789C00B6D9FF /* L293D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDD567261FD4789C00B6D9FF /* L293D.cpp */; };
 		EDD567311FD4F5B500B6D9FF /* ArduinoSlave.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDD5672F1FD4F5B500B6D9FF /* ArduinoSlave.cpp */; };
 		EDD567381FD65DD900B6D9FF /* TrekManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDD567361FD65DD900B6D9FF /* TrekManager.cpp */; };
+		EDD5673B1FD664E400B6D9FF /* MPL3115A2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EDD567391FD664E400B6D9FF /* MPL3115A2.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -47,6 +48,8 @@
 		EDD567301FD4F5B500B6D9FF /* ArduinoSlave.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ArduinoSlave.hpp; sourceTree = "<group>"; };
 		EDD567361FD65DD900B6D9FF /* TrekManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TrekManager.cpp; sourceTree = "<group>"; };
 		EDD567371FD65DD900B6D9FF /* TrekManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = TrekManager.hpp; sourceTree = "<group>"; };
+		EDD567391FD664E400B6D9FF /* MPL3115A2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MPL3115A2.cpp; sourceTree = "<group>"; };
+		EDD5673A1FD664E400B6D9FF /* MPL3115A2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MPL3115A2.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +122,8 @@
 				ED9616451FBF8753005056F7 /* mpu6050.h */,
 				EDD5672F1FD4F5B500B6D9FF /* ArduinoSlave.cpp */,
 				EDD567301FD4F5B500B6D9FF /* ArduinoSlave.hpp */,
+				EDD567391FD664E400B6D9FF /* MPL3115A2.cpp */,
+				EDD5673A1FD664E400B6D9FF /* MPL3115A2.hpp */,
 			);
 			name = Inputs;
 			sourceTree = "<group>";
@@ -180,6 +185,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDD5673B1FD664E400B6D9FF /* MPL3115A2.cpp in Sources */,
 				ED96164C1FBF8754005056F7 /* pca9685.cpp in Sources */,
 				EDD567381FD65DD900B6D9FF /* TrekManager.cpp in Sources */,
 				EDD567311FD4F5B500B6D9FF /* ArduinoSlave.cpp in Sources */,

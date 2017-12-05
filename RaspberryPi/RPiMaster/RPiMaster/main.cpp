@@ -13,6 +13,7 @@
 #include "L293D.hpp"
 #include "ArduinoSlave.hpp"
 #include "TrekManager.hpp"
+#include "MPL3115A2.hpp"
 
 #define SERV_ADDR   "52.38.18.162"
 #define SERV_PORT   15003
@@ -98,6 +99,9 @@ int main(int argc, const char * argv[]) {
     //Setup the Arduino Slave
     ArduinoSlave *arduino = new ArduinoSlave(0x05);
     
+    //Setup the altimeter
+    MPL3115A2 *altimeter = new MPL3115A2();
+    
     //Setup TrekManger
     TrekManager *trek = new TrekManager();
     trek->startTrek();
@@ -107,21 +111,16 @@ int main(int argc, const char * argv[]) {
    Client *client = new Client(SERV_ADDR, SERV_PORT);
    client->readCallback = clientReadCallback;
     
-    //Green -> Red -> Blue -> Purple -> Torquoise
-    int colors[5][3] = {{0, 255, 0}, {255, 0, 0}, {0, 0, 255}, {226, 86, 255}, {75, 252, 220}};
-    
     cout<<"starting loop"<<endl;
     int colorIndex = 0;
     while (true) {
         arduino->read();
-        cout<<"Arduino: "<<arduino->getData()<<endl;
         
-        /*arduino->write(colors[colorIndex%5][0]);
-        arduino->write(colors[colorIndex%5][1]);
-        arduino->write(colors[colorIndex%5][2]);
-        cout<<"Sending color: {"<<colors[colorIndex%5][0]<<", "<<colors[colorIndex%5][1]<<", "<<colors[colorIndex%5][2]<<"}"<<endl;
-        colorIndex++;
-         */
+        //Post Light Value to Server
+        int light = arduino->getData();
+        trek->postData("Light", to_string(light), "V");
+        
+        //
         
         arduino->write(255);
         
