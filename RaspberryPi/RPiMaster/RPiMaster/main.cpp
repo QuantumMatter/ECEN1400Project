@@ -125,7 +125,7 @@ int main(int argc, const char * argv[]) {
         
         //Post Light Value to Server
         int light = arduino->getData();
-        trek->postData("Light", to_string(light), "V");
+        trek->postData("Light", to_string(light/100.0), "V");
         
         //Post altimeter data to server
         trek->postData("Altitude", to_string(altimeter->getAltitude()), "m");

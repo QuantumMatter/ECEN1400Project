@@ -18,17 +18,24 @@ void SI7201::update() {
     wiringPiI2CWrite(fd, 0xF5);
     delay(0.3);
     
-    char data0 = wiringPiI2CRead(fd);
-    char data1 = wiringPiI2CRead(fd);
+    char data[2] = {0};
+    if(read(fd, data, 2) != 2) {
+        cout<<"SI7021 IO Error"<<endl;
+    }
+    /*char data0 = wiringPiI2CRead(fd);
+    char data1 = wiringPiI2CRead(fd);*/
     
-    humidity = ((data0 * 256 + data1) * 125 / 65536.0) - 6;
+    humidity = ((data[0] * 256 + data[1]) * 125 / 65536.0) - 6;
     
     delay(0.3);
     wiringPiI2CWrite(fd, 0xF3);
     delay(0.3);
     
-    data0 = wiringPiI2CRead(fd);
-    data1 = wiringPiI2CRead(fd);
+    /*data0 = wiringPiI2CRead(fd);
+    data1 = wiringPiI2CRead(fd);*/
+    if(read(fd, data, 2) != 2) {
+        cout<<"SI7021 IO Error"<<endl;
+    }
     
-    celcius = ((data0 * 256 + data1) * 175.72 / 65536.0) - 46.85;
+    celcius = ((data[0] * 256 + data[1]) * 175.72 / 65536.0) - 46.85;
 }

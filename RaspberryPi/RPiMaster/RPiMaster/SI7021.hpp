@@ -10,8 +10,12 @@
 #define SI7021_hpp
 
 #include <stdio.h>
+#include <unistd.h>
+#include <iostream>
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
+
+using namespace std;
 
 class SI7201 {
     
@@ -31,6 +35,6 @@ public:
     float getCelcius() {
         return celcius;
     };
-}
+};
 
 #endif /* SI7021_hpp */
