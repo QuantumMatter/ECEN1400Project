@@ -9,11 +9,13 @@
 
 #include <iostream>
 #include <wiringPi.h>
+
 #include "Client.h"
 #include "L293D.hpp"
 #include "ArduinoSlave.hpp"
 #include "TrekManager.hpp"
 #include "MPL3115A2.hpp"
+#include "SI7021.hpp"
 
 #define SERV_ADDR   "52.38.18.162"
 #define SERV_PORT   15003
@@ -102,6 +104,9 @@ int main(int argc, const char * argv[]) {
     //Setup the altimeter
     MPL3115A2 *altimeter = new MPL3115A2();
     
+    //Setup the humidity sensor
+    SI7201 *humidity = new SI7201();
+    
     //Setup TrekManger
     TrekManager *trek = new TrekManager();
     trek->startTrek();
@@ -116,6 +121,7 @@ int main(int argc, const char * argv[]) {
     while (true) {
         arduino->read();
         altimeter->update();
+        humidity->update();
         
         //Post Light Value to Server
         int light = arduino->getData();
@@ -126,7 +132,8 @@ int main(int argc, const char * argv[]) {
         trek->postData("Pressure", to_string(altimeter->getPressure()), "kPa");
         trek->postData("Temperature", to_string(altimeter->getCelcius()), "C");
         
-        //arduino->write(255);
+        //Post humidity data to server
+        trek->postData("Humidity", to_string(humidity->getHumidity()), "%");
         
         delay(2000);
     }

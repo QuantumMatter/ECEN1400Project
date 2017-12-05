@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		ED057C391FB2A05200F329D1 /* Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED057C351FB2A05200F329D1 /* Client.cpp */; };
+		ED21EF5B1FD737770013A558 /* SI7021.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED21EF591FD737770013A558 /* SI7021.cpp */; };
 		ED49A7B21FB29FF500AFA868 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED49A7B11FB29FF500AFA868 /* main.cpp */; };
 		ED96164B1FBF8754005056F7 /* mpu6050.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9616471FBF8753005056F7 /* mpu6050.cpp */; };
 		ED96164C1FBF8754005056F7 /* pca9685.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9616481FBF8753005056F7 /* pca9685.cpp */; };
@@ -35,6 +36,8 @@
 		ED057C351FB2A05200F329D1 /* Client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client.cpp; sourceTree = "<group>"; };
 		ED057C371FB2A05200F329D1 /* List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
 		ED21EF581FD71C430013A558 /* MPL_Python.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = MPL_Python.py; sourceTree = "<group>"; };
+		ED21EF591FD737770013A558 /* SI7021.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SI7021.cpp; sourceTree = "<group>"; };
+		ED21EF5A1FD737770013A558 /* SI7021.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SI7021.hpp; sourceTree = "<group>"; };
 		ED49A7AE1FB29FF500AFA868 /* RPiMaster */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RPiMaster; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED49A7B11FB29FF500AFA868 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		ED9616451FBF8753005056F7 /* mpu6050.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mpu6050.h; sourceTree = "<group>"; };
@@ -126,6 +129,8 @@
 				EDD567301FD4F5B500B6D9FF /* ArduinoSlave.hpp */,
 				EDD567391FD664E400B6D9FF /* MPL3115A2.cpp */,
 				EDD5673A1FD664E400B6D9FF /* MPL3115A2.hpp */,
+				ED21EF591FD737770013A558 /* SI7021.cpp */,
+				ED21EF5A1FD737770013A558 /* SI7021.hpp */,
 			);
 			name = Inputs;
 			sourceTree = "<group>";
@@ -196,6 +201,7 @@
 				ED96164B1FBF8754005056F7 /* mpu6050.cpp in Sources */,
 				EDD567281FD4789C00B6D9FF /* L293D.cpp in Sources */,
 				ED49A7B21FB29FF500AFA868 /* main.cpp in Sources */,
+				ED21EF5B1FD737770013A558 /* SI7021.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
