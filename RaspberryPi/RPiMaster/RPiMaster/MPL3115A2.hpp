@@ -28,7 +28,7 @@ private:
     
 public:
     MPL3115A2(int address = 0x60);
-    void read();
+    void update();
     float getPressure() {
         return pressure;
     }

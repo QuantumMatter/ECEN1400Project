@@ -43,7 +43,7 @@ MPL3115A2::MPL3115A2(int address)
     
 }
 
-void MPL3115A2::read() {
+void MPL3115A2::update() {
     // Read 6 bytes of data from address 0x00(00)
     // status, tHeight msb1, tHeight msb, tHeight lsb, temp msb, temp lsb
     char reg[1] = {0x00};
@@ -64,6 +64,7 @@ void MPL3115A2::read() {
     
     // Select control register(0x26)
     // Active mode, OSR = 128, barometer mode(0x39)
+    int config[2] = {0};
     config[0] = 0x26;
     config[1] = 0x39;
     write(file, config, 2);
