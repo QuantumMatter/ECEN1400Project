@@ -7,10 +7,10 @@
 
 #include "MPL3115A2.hpp"
 
-MPL3115A2::MPL3115A2(int address)
+using namespace std;
+
+int MPL3115A2::test()
 {
-    
-    addr = address;
     // Create I2C bus
     int file;
     char *bus = "/dev/i2c-1";
@@ -40,10 +40,6 @@ MPL3115A2::MPL3115A2(int address)
     write(file, config, 2);
     sleep(1);
     
-    
-}
-
-void MPL3115A2::update() {
     // Read 6 bytes of data from address 0x00(00)
     // status, tHeight msb1, tHeight msb, tHeight lsb, temp msb, temp lsb
     char reg[1] = {0x00};
@@ -58,13 +54,12 @@ void MPL3115A2::update() {
     // Convert the data
     int tHeight = ((data[1] * 65536) + (data[2] * 256 + (data[3] & 0xF0)) / 16);
     int temp = ((data[4] * 256) + (data[5] & 0xF0)) / 16;
-    altitude = tHeight / 16.0;
-    celcius = (temp / 16.0);
-    //float fTemp = cTemp * 1.8 + 32;
+    float altitude = tHeight / 16.0;
+    float cTemp = (temp / 16.0);
+    float fTemp = cTemp * 1.8 + 32;
     
     // Select control register(0x26)
     // Active mode, OSR = 128, barometer mode(0x39)
-    int config[2] = {0};
     config[0] = 0x26;
     config[1] = 0x39;
     write(file, config, 2);
@@ -78,5 +73,15 @@ void MPL3115A2::update() {
     
     // Convert the data to 20-bits
     int pres = ((data[1] * 65536) + (data[2] * 256 + (data[3] & 0xF0))) / 16;
-    pressure = (pres / 4.0) / 1000.0;
+    float pressure = (pres / 4.0) / 1000.0;
+    
+    // Output data to screen
+    printf("Pressure : %.2f kPa \n", pressure);
+    printf("Altitude : %.2f m \n", altitude);
+    printf("Temperature in Celsius : %.2f C \n", cTemp);
+    printf("Temperature in Fahrenheit : %.2f F \n", fTemp);
+    
+    
+    return 0;
 }
+
