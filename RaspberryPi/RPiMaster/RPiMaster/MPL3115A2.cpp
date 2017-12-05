@@ -55,12 +55,12 @@ MPL3115A2::MPL3115A2(int address) {
     wiringPiI2CWrite(fd, reg[0]);
     //write(file, reg, 1);
     char data[6] = {0};
-    wiringPiI2CRead(fd, data[0]);
-    wiringPiI2CRead(fd, data[1]);
-    wiringPiI2CRead(fd, data[2]);
-    wiringPiI2CRead(fd, data[3]);
-    wiringPiI2CRead(fd, data[4]);
-    wiringPiI2CRead(fd, data[5]);
+    data[0] = wiringPiI2CRead(fd);
+    data[1] = wiringPiI2CRead(fd);
+    data[1] = wiringPiI2CRead(fd);
+    data[3] = wiringPiI2CRead(fd);
+    data[4] = wiringPiI2CRead(fd);
+    data[5] = wiringPiI2CRead(fd);
     /*if(read(file, data, 6) != 6)
     {
         printf("Error : Input/Output error \n");
@@ -87,11 +87,11 @@ MPL3115A2::MPL3115A2(int address) {
     wiringPiI2CWrite(fd, data[0]);
     //write(file, reg, 1);
     //read(file, data, 4);
-    wiringPiI2CRead(fd, data[0]);
-    wiringPiI2CRead(fd, data[1]);
-    wiringPiI2CRead(fd, data[2]);
-    wiringPiI2CRead(fd, data[3]);
-    
+    data[0] = wiringPiI2CRead(fd);
+    data[1] = wiringPiI2CRead(fd);
+    data[1] = wiringPiI2CRead(fd);
+    data[3] = wiringPiI2CRead(fd);
+
     // Convert the data to 20-bits
     int pres = ((data[1] * 65536) + (data[2] * 256 + (data[3] & 0xF0))) / 16;
     float pressure = (pres / 4.0) / 1000.0;
