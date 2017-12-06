@@ -80,6 +80,8 @@ void MPL3115A2::update()
     int pres = ((data[1] * 65536) + (data[2] * 256 + (data[3] & 0xF0))) / 16;
     pressure = (pres / 4.0) / 1000.0;
     
+    close(file);
+    
     // Output data to screen
     //printf("Pressure : %.2f kPa \n", pressure);
     //printf("Altitude : %.2f m \n", altitude);

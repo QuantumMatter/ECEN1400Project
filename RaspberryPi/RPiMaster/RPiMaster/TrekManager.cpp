@@ -54,6 +54,7 @@ void TrekManager::startTrek() {
         readBuffer = "";
     }
 }
+
 void TrekManager::postData(string key, string data, string units) {
     if(curl) {
         string postData = "TrekID=" + to_string(trekID);
