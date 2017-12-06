@@ -12,11 +12,11 @@ while True:
 		# print report
         if report['class'] == 'TPV':
             if hasattr(report, 'lon'):
-                #print report
-								myFile = open("gps_data.txt". "w")
-								myFile.write(report.lat)
-								myFile.write(report.lon)
-								myFile.close()
+                print report
+		myFile = open("gps_data.txt", "w")
+		myFile.write(str(report.lat) + "\n")
+		myFile.write(str(report.lon))
+		myFile.close()
     except KeyError:
 		pass
     except KeyboardInterrupt:
