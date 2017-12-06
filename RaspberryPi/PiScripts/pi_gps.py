@@ -11,8 +11,12 @@ while True:
 		# To see all report data, uncomment the line below
 		# print report
         if report['class'] == 'TPV':
-            if hasattr(report, 'time'):
-                print report
+            if hasattr(report, 'lon'):
+                #print report
+								myFile = open("gps_data.txt". "w")
+								myFile.write(report.lat)
+								myFile.write(report.lon)
+								myFile.close()
     except KeyError:
 		pass
     except KeyboardInterrupt:
