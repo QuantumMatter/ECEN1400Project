@@ -15,6 +15,7 @@
 #include "ArduinoSlave.hpp"
 #include "TrekManager.hpp"
 #include "MPL3115A2.hpp"
+#include "AdafruitGPS.hpp"
 
 #define SERV_ADDR   "52.38.18.162"
 #define SERV_PORT   15003
@@ -110,6 +111,9 @@ int main(int argc, const char * argv[]) {
     TrekManager *trek = new TrekManager();
     trek->startTrek();
     
+    //Setup GPS
+    AdafruitGPS *gps = new AdafruitGPS();
+    
     //Wait half second to allow server to open port
     delay(500);
     Client *client = new Client(SERV_ADDR, SERV_PORT);
@@ -118,11 +122,12 @@ int main(int argc, const char * argv[]) {
     cout<<"starting loop"<<endl;
     int colorIndex = 0;
     while (true) {
-        cout<<"arduino read"<<endl;
         arduino->read();
-        cout<<"MPL read"<<endl;
         altimeter->update();
-        //humidity->update();
+        gps->update();
+        
+        trek->latitude = gps->getLatitude();
+        trek->longitude = gps->getLongitude();
         
         //Post Light Value to Server
         int light = arduino->getData();
