@@ -26,7 +26,7 @@ function get() {
         die("BAD");
     }
 
-    $reserved = ["table", "sort"];
+    $reserved = ["table", "dir", "order", "limit"];
 
     $where = "";
     foreach ($_GET as $key => $value) {
@@ -61,7 +61,22 @@ function get() {
         $where = " WHERE " . $where;
     }
     $query = "SELECT * FROM " . $_GET['table'] . $where;
-
+    if(isset($_GET['order'])) {
+        $query .= " ORDER BY " . $_GET['order'];
+        if (isset($_GET['dir'])) {
+            if(strcmp($_GET['dir'], "ASC") == 0) {
+                $query .= " ASC";
+            } else if(strcmp($_GET['dir'], "DESC") == 0) {
+                $query .= " DESC";
+            }
+        }
+    }
+    if (isset($_GET['limit'])) {
+        if (is_numeric($_GET['limit'])) {
+            $query .= " LIMIT " . $_GET['limit'];
+        }
+    }
+    //echo $query;
     $results = mysqli_query($conn, $query);
     if (!$results) {
         echo "bad result<br>";
@@ -84,6 +99,9 @@ function stringify_results($results) {
     }
     $JSON = substr($JSON, 0, -1);
     $JSON .= ']';
+    if(strcmp($JSON, "]") == 0) {
+        return "[]";
+    }
     return $JSON;
 }
 

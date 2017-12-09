@@ -104,9 +104,6 @@ int main(int argc, const char * argv[]) {
     //Setup the altimeter
     MPL3115A2 *altimeter = new MPL3115A2();
     
-    //Setup the humidity sensor
-    //SI7201 *humidity = new SI7201();
-    
     //Setup TrekManger
     TrekManager *trek = new TrekManager();
     trek->startTrek();
@@ -122,10 +119,12 @@ int main(int argc, const char * argv[]) {
     cout<<"starting loop"<<endl;
     int colorIndex = 0;
     while (true) {
+        //Make all of the sensors update their locally stored values
         arduino->read();
         altimeter->update();
         gps->update();
         
+        //Update the gps
         trek->latitude = gps->getLatitude();
         trek->longitude = gps->getLongitude();
         
@@ -142,7 +141,6 @@ int main(int argc, const char * argv[]) {
         cout<<"arduino read"<<endl;
         arduino->read();
         trek->postData("Humidity", to_string(arduino->getData()), "%");
-        //trek->postData("Humidity", to_string(humidity->getHumidity()), "%");
         
         delay(2000);
     }

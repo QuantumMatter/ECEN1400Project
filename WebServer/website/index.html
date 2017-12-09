@@ -3,23 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-</head>
-<body>
+    <script src="src/jwplayer-7.5.2/jwplayer.js"></script>
+    <script>jwplayer.key="Ho/ww8EIQxnAhpx9QeTd1MZYhBgsbYWlS0ncUQ==";</script>
 
-FFDDCU Home Page!
+    <script src="src/nvd3/d3.min.js"></script>
+
+    <link rel="stylesheet" href="src/nvd3/nv.d3.css">
+    <script src="src/nvd3/nv.d3.min.js"></script>
+</head>
+
+<body style="padding: 0; margin: 0; overflow: hidden">
+
+<div id="player" style="width: 100%; height: 100%"></div>
+
+<div id="chart" style="position:relative ; background-color: rgba(255, 255, 255, 0.75); width:100%; height:225px; z-index: 100; top: -250px;">
+    <svg></svg>
+</div>
 
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
-    var data = {
-        "type": "test",
-        "latitude": 40.0031470000,
-        "longitude": -105.2632500000,
-        "value": 2
+
+    //alert("test");
+
+    var socket = new WebSocket("wss://davidkopala.com:8000/", "sub-protocol");
+    socket.onopen = function (event) {
+        socket.send("this is a test from the website!");
     };
-    $.post("dbconn.php?table=data", data, function (d) {
-        console.log(d);
+
+    $(document).keypress(function(event){
+        //alert(String.fromCharCode(event.which));
+        socket.send(String.fromCharCode(event.which));
     });
+
+    var playerInstance = jwplayer("player");
+    playerInstance.setup({
+        file: "rtmp://davidkopala.com/live/test",
+        image: "res/stream_background.jpg",
+        height: window.innerHeight,
+        width: window.innerWidth
+    });
+
+    /*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
+    var chart;
+    nv.addGraph(function() {
+        chart = nv.models.lineChart()
+            .margin({left: 100})
+            .useInteractiveGuideline(false)  //We want nice looking tooltips and a guideline
+            .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
+            .showYAxis(true)        //Show the y-axis
+            .showXAxis(true)        //Show the x-axis
+        ;
+
+        chart.xAxis     //Chart x-axis settings
+            .axisLabel("Time (s)")
+            .tickFormat(d3.format(',r'));
+
+        chart.yAxis     //Chart y-axis settings
+            .axisLabel("Relative Value (%)")
+            .tickFormat(d3.format('.02f'));
+
+
+        chart.tooltipContent(function (data) {
+            console.log(data);
+            html = "";
+            html += "<table>"
+                    + "<thead><tr><td colspan='3'><strong>" + data.point.x + " s" + "</strong></td></tr></thead>"
+                    + "<tbody>";
+            for (var i = 0; i < nvData.length; i++) {
+                html += "<tr>"
+                        + "<td class='legend-color-guide'><div style='background-color: " + nvData[i].color + ";'></div></td>"
+                        + "<td class='key'>" + nvData[i].key + "</td>"
+                        + "<td class='value'>" + nvData[i].values[data.pointIndex].real + " " + nvData[i].units + "</td>"
+                        + "</tr>";
+            }
+            html += "</tbody></table>";
+            return html;
+        });
+
+        nv.utils.windowResize(function() { chart.update() });
+
+        return chart;
+    });
+
+    var startDate;
+    var lastTimestamp = "2017-12-04 20:50:12";
+    var trekID = 52;
+    var nvData = [];
+    function update() {
+        var req = "dbconn.php?table=data&TrekID=" + trekID + "&timestamp=>" + lastTimestamp;
+        //console.log(req);
+        $.get(req, function(data) {
+            var jArray = JSON.parse(data);
+            //console.log(jArray);
+            if (jArray.length === 0) {
+                return;
+            }
+
+            for (var i = 0; i < jArray.length; i++) {
+                var item = jArray[i];
+                var dataIndex = -1;
+                for (var j = 0; j < nvData.length; j++) {
+                    if (nvData[j].key === item.type) {
+                        dataIndex = j;
+                        break;
+                    }
+                }
+                if (dataIndex === -1) {
+                    dataIndex = nvData.length;
+                    nvData.push({
+                        values: [],
+                        key: item.type,
+                        seriesIndex: dataIndex,
+                        min: 99999.99,
+                        max: -99999.99,
+                        units: item.Units
+                    });
+                }
+                nvData[dataIndex].min = Math.min(nvData[dataIndex].min, item.value);
+                nvData[dataIndex].max = Math.max(nvData[dataIndex].max, item.value);
+                var newDate = new Date(item.timestamp);
+                nvData[dataIndex].values.push({
+                    x: (newDate - startDate) / 1000,
+                    y: item.value,
+                    series: dataIndex,
+                    real: item.value
+                });
+                lastTimestamp = item.timestamp;
+            }
+
+            for(var i = 0; i < nvData.length; i++) {
+                for (var j = 0; j < nvData[i].values.length; j++) {
+                    //console.log((nvData[i].values[j].y - nvData[i].min) + " / " + (nvData[i].max - nvData[i].min));
+                    nvData[i].values[j].y = (nvData[i].values[j].real - nvData[i].min) / (nvData[i].max - nvData[i].min);
+                }
+            }
+
+            d3.select('#chart svg')    //Select the <svg> element you want to render the chart in.
+                .datum(nvData)         //Populate the <svg> element with chart data...
+                .call(chart);
+            //console.log(nvData);
+        });
+
+        setTimeout(update, 1000);
+    }
+
+    $.get("dbconn.php?table=treks&order=ID&limit=1&dir=DESC", function(data) {
+        var json = JSON.parse(data);
+        console.log(json);
+        trekID = json[0].ID;
+        lastTimestamp = json[0].StartTime;
+        startDate = new Date(json[0].StartTime);
+        console.log(lastTimestamp);
+
+        update();
+    });
+
+
 </script>
 </html>
